@@ -17,13 +17,13 @@ const connection = mysql.createConnection({
     database: process.env.database
   });
 
-connection.connect(function(err) {
-  if (err) {
-    console.error('Erro ao conectar ao banco de dados: ' + err.stack);
-    return;
-  }
-  console.log('Conexão estabelecida com o banco de dados.');
-});
+// connection.connect(function(err) {
+//   if (err) {
+//     console.error('Erro ao conectar ao banco de dados: ' + err.stack);
+//     return;
+//   }
+//   console.log('Conexão estabelecida com o banco de dados.');
+// });
 
 app.get('/processos', function(req, res) {
   const cidade = req.query.cidade;
