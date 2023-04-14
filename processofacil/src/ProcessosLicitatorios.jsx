@@ -4,13 +4,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import moment from 'moment';
 import { Telephone } from 'react-bootstrap-icons';
 
-function ProcessosLicitatorios() {
+function ProcessosLicitatorios({url}) {
   const [processos, setProcessos] = useState([]);
   const [cidades, setCidades] = useState([]);
   const [cidadeSelecionada, setCidadeSelecionada] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:3000/cidades')
+    axios.get(url +'/cidades')
       .then(response => {
         setCidades(response.data.cidades);
       })
@@ -21,7 +21,7 @@ function ProcessosLicitatorios() {
 
   useEffect(() => {
     if (cidadeSelecionada !== '') {
-      axios.get(`http://localhost:3000/processos?cidade=${cidadeSelecionada}`)
+      axios.get(url +`/processos?cidade=${cidadeSelecionada}`)
         .then(response => {
           setProcessos(response.data.processos);
         })
