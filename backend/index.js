@@ -10,45 +10,52 @@ const app = express();
 
 // Configurando o middleware cors com a opção origin
 app.use(cors({
-  origin: 'http://localhost'
+  origin: 'http://ec2-18-222-195-112.us-east-2.compute.amazonaws.com'
 }));
 
-const connection = mysql.createConnection({
+const pool = mysql.createPool({
+    connectionLimit : 10,
     host: process.env.host,
     user: process.env.user,
     password: process.env.password,
     database: process.env.database
-  });
-
-connection.connect(function(err) {
-  if (err) {
-    console.error('Erro ao conectar ao banco de dados: ' + err.stack);
-    return;
-  }
-  console.log('Conexão estabelecida com o banco de dados.');
 });
 
 app.get('/processos', function(req, res) {
   const cidade = req.query.cidade;
   const sql = 'SELECT * FROM processo WHERE CidadeNome = ?';
-  connection.query(sql, [cidade], function(error, results) {
+  pool.getConnection(function(error, connection) {
     if (error) {
       res.status(500).json({ error: error });
-    } else {
-      res.status(200).json({ processos: results });
+      return;
     }
+    connection.query(sql, [cidade], function(error, results) {
+      connection.release();
+      if (error) {
+        res.status(500).json({ error: error });
+      } else {
+        res.status(200).json({ processos: results });
+      }
+    });
   });
 });
 
 app.get('/cidades', function(req, res) {
     const sql = 'SELECT DISTINCT CidadeNome FROM processo';
-    connection.query(sql, function(error, results) {
+    pool.getConnection(function(error, connection) {
       if (error) {
         res.status(500).json({ error: error });
-      } else {
-        const cidades = results.map(result => result.CidadeNome);
-        res.status(200).json({ cidades: cidades });
+        return;
       }
+      connection.query(sql, function(error, results) {
+        connection.release();
+        if (error) {
+          res.status(500).json({ error: error });
+        } else {
+          const cidades = results.map(result => result.CidadeNome);
+          res.status(200).json({ cidades: cidades });
+        }
+      });
     });
 });
 
