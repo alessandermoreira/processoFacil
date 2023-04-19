@@ -10,7 +10,7 @@ const app = express();
 
 // Configurando o middleware cors com a opção origin
 app.use(cors({
-  origin: 'http://ec2-18-222-195-112.us-east-2.compute.amazonaws.com'
+  origin: 'http://18.219.163.218'
 }));
 
 const pool = mysql.createPool({
