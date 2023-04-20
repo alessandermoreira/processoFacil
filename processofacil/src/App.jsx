@@ -12,7 +12,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 function App() {
 
-  const url = 'http://18.219.163.218:3000';
+  const url = 'http://ec2-18-219-163-218.us-east-2.compute.amazonaws.com:3000';
   return (
 
     <BrowserRouter>
