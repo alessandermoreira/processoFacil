@@ -9,13 +9,20 @@ import { useState } from 'react';
 import {ArrowRight, List} from 'react-bootstrap-icons'
 import "./css/Menu.css"
 
-const Menu = () => {
+const Menu = ({url, usuarioLogado, setUsuarioLogado}) => {
 
 
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+
+  const handleSair = () => {
+    console.log(usuarioLogado)
+    setUsuarioLogado({});
+    window.location.href = "/Login"
+    }
 
   return (
     <>
@@ -49,7 +56,7 @@ const Menu = () => {
           </Nav>
           <Nav>
             <Nav.Link href="/Login">Login</Nav.Link>
-            <Nav.Link href="/Sair">Sair</Nav.Link>
+            <Nav.Link onClick={handleSair}>Sair</Nav.Link>
             <Nav.Link href="/Cadastro">Cadastrar-se</Nav.Link>
           </Nav>
         </Navbar.Collapse>

@@ -1,16 +1,28 @@
 import React, { useState } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
-const Login = () => {
-const [email, setEmail] = useState("");
-const [password, setPassword] = useState("");
+const Login = ({url, usuarioLogado, setUsuarioLogado}) => {
 
-const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(email, password);
-};
+
+    const navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log(email, password);
+        const credenciais = {email, password};
+        const response = await axios.post(url + '/api/login', credenciais,{params: credenciais});
+        localStorage.setItem('user', response.data);
+        setUsuarioLogado(response.data);
+        console.log(response.data);
+        navigate("/Processos")
+    };
 
 return (
+
 <Container>
     
     <Row className="justify-content-md-center mt-5">

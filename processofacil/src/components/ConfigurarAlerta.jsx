@@ -41,7 +41,7 @@ const ConfigurarAlerta = ({url}) => {
   };
 
   useEffect(() => {
-    axios.get(url +'/cidades')
+    axios.get(url +'/api/cidades')
       .then(response => {
 
         // const options = [
