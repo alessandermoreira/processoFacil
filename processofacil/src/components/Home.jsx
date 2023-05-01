@@ -2,15 +2,15 @@ import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
 
-const Home = () => {
+const Home = ({}) => {
   const [response, setResponse] = useState(null);
   const textareaRef = useRef(null);
 
-
+  var usuarioLogado = "";
+  if (localStorage.getItem('usuarioLogado'))
+    usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
   const pesquisarGPT = async() => {
-
-
     
     axios.get(`http://localhost:3001/api/chamarChatGPT/` , {
         params: {
@@ -33,6 +33,9 @@ const Home = () => {
 
   return (
     <div>
+      <p>Usuário logado: </p>
+         {JSON.stringify(usuarioLogado)}
+
     <Form>
       <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
         <Form.Label>Example textarea</Form.Label>

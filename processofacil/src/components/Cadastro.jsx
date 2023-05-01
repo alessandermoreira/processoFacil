@@ -3,7 +3,7 @@ import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import axios from "axios";
 
 
-const Cadastro = () => {
+const Cadastro = ({url}) => {
   
   const [formData, setFormData] = useState({
     nome: '',
@@ -22,18 +22,33 @@ const Cadastro = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("formData");    
     console.log(formData);
+    registerUser(formData);
   }
 
+// Front-end: cadastro de usuário
+const registerUser = async (userData) => {
+  try {
+    console.log("userData");
+    console.log(userData);
+    const response = await axios.post(url + '/api/register', userData,{params: userData});
+    return response.data;
 
-  
+    
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
 const verifyEmail = async (email) => {
 
     await 
     // axios.get(
     //     "http://localhost:3001/api/clientes/verificar-email-disponivel?email=" + email,
     //   );
-    axios.get(`http://localhost:3001/api/clientes/verificarEmailDisponivel/` + email)
+    axios.get( url + `/verificarEmailDisponivel/` + email)
     .then(response => {
         console.log(response.data);
         if(response.data.disponivel == false){
@@ -53,6 +68,8 @@ const verifyEmail = async (email) => {
     const email = event.target.value;
     console.log("Verifica Email " + email);
     const emailExistente = verifyEmail(email);
+
+
 
 
     // Faz a chamada ao backend para verificar se o email existe

@@ -5,12 +5,17 @@ import moment from 'moment';
 import { Telephone } from 'react-bootstrap-icons';
 
 function ProcessosLicitatorios({url}) {
+
+  var usuarioLogado = "";
+  if (localStorage.getItem('usuarioLogado'))
+    usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+  
   const [processos, setProcessos] = useState([]);
   const [cidades, setCidades] = useState([]);
   const [cidadeSelecionada, setCidadeSelecionada] = useState('');
 
   useEffect(() => {
-    axios.get(url +'/cidades')
+    axios.get(url +'/cidades', { headers: { Authorization: `Bearer ${usuarioLogado.token}` } })
       .then(response => {
         setCidades(response.data.cidades);
       })
@@ -21,7 +26,7 @@ function ProcessosLicitatorios({url}) {
 
   useEffect(() => {
     if (cidadeSelecionada !== '') {
-      axios.get(url +`/processos?cidade=${cidadeSelecionada}`)
+      axios.get(url +`/processos?cidade=${cidadeSelecionada}`, { headers: { Authorization: `Bearer ${usuarioLogado.token}` } })
         .then(response => {
           setProcessos(response.data.processos);
         })
