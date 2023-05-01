@@ -9,6 +9,7 @@ import Cadastro from './components/Cadastro';
 import ConfigurarAlerta from './components/ConfigurarAlerta';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
+import AlertasEnviados from './components/AlertasEnviados';
 
 var url_api = 'http://ec2-18-219-163-218.us-east-2.compute.amazonaws.com:3000/api';
 if(process.env.NODE_ENV == 'development' ){
@@ -16,34 +17,35 @@ if(process.env.NODE_ENV == 'development' ){
 }
 
 
+
 function App() {
 
-  const [usuarioLogado, setUsuarioLogado] = useState({});
+
+  
 
   return (
 
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Menu url={url_api} usuarioLogado={usuarioLogado} setUsuarioLogado={setUsuarioLogado}/>}>
-          <Route index element={<Home />} />
+        <Route path="/" element={<Menu url={url_api} />}>
+          <Route index element={<Home  />} />
 
-          <Route path='/ConfigurarAlerta' element={<PrivateRoute/>}>
-            <Route exact path="/ConfigurarAlerta" element={<ConfigurarAlerta url={url_api}/>} />
-          </Route>
+          <Route exact path='/Processos' element={<PrivateRoute> <ProcessosLicitatorios url={url_api}/> </PrivateRoute> }/>
+
+
+          <Route path='/ConfigurarAlerta' element={<PrivateRoute><ConfigurarAlerta url={url_api}/> </PrivateRoute>}  />
+
+          <Route path='/AlertasEnviados' element={<PrivateRoute><AlertasEnviados url={url_api}/> </PrivateRoute>}  />
+            
 
           <Route path="/Login" element={
             <Login
               url={url_api}
-              usuarioLogado={usuarioLogado}
-              setUsuarioLogado={setUsuarioLogado}
             />
           }/>     
                   
           <Route path="/Cadastro" element={<Cadastro url={url_api}/>} />
 
-          <Route exact path='/Processos' element={<PrivateRoute/>}>
-            <Route path="/Processos" element={<ProcessosLicitatorios url={url_api}/>} />
-          </Route>
           
           <Route path="*" element={<SemPagina />} />
         </Route>

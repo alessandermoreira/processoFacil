@@ -11,6 +11,10 @@ import "./css/Menu.css"
 
 const Menu = ({url, usuarioLogado, setUsuarioLogado}) => {
 
+  var usuarioLogado = "";
+  if (localStorage.getItem('usuarioLogado'))
+    usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+
 
   const [show, setShow] = useState(false);
 
@@ -20,7 +24,7 @@ const Menu = ({url, usuarioLogado, setUsuarioLogado}) => {
 
   const handleSair = () => {
     console.log(usuarioLogado)
-    setUsuarioLogado({});
+    localStorage.setItem('usuarioLogado', '');
     window.location.href = "/Login"
     }
 
@@ -36,28 +40,73 @@ const Menu = ({url, usuarioLogado, setUsuarioLogado}) => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link to="/Processos" href="/Processos">
+
+
+
+            <Nav.Link to="/" href="/">
+                Home
+            </Nav.Link>  
+            
+            {usuarioLogado.token ? (
+              <Nav.Link to="/Processos" href="/Processos">
                 Processos
-            </Nav.Link>
+              </Nav.Link>
+            ) : (
+              ""
+            )}
+
+
+            {usuarioLogado.token ? (
+              <Nav.Link to="/AlertasEnviados" href="/AlertasEnviados">
+                Alertas Enviados
+              </Nav.Link>
+            ) : (
+              ""
+            )}            
+
+            {usuarioLogado.token ? (
             <Nav.Link to="/ConfigurarAlerta" href="/ConfigurarAlerta">
-                Configurar Alerta
+              Configurar Alerta
             </Nav.Link>
+            ) : (
+              ""
+            )}
+{/* 
             <Nav.Link to="/CriarOrcamento" href="/CriarOrcamento">
                 Cadastrar Empresa
-            </Nav.Link>                      
-            <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
+            </Nav.Link>   */}
+                                
+            {/* <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
               <NavDropdown.Item href="/Login">Login</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href="#action/3.4">
                 Separated link
               </NavDropdown.Item>
-            </NavDropdown>
+            </NavDropdown> */}
+
           </Nav>
           <Nav>
-            <Nav.Link href="/Login">Login</Nav.Link>
-            <Nav.Link onClick={handleSair}>Sair</Nav.Link>
-            <Nav.Link href="/Cadastro">Cadastrar-se</Nav.Link>
+
+
+            {!usuarioLogado.token ? (
+              <Nav.Link href="/Login">Login</Nav.Link>
+            ) : (
+              ""
+            )}
+
+            {usuarioLogado.token ? (
+              <Nav.Link onClick={handleSair}>Sair</Nav.Link>
+            ) : (
+              ""
+            )}
+
+            {!usuarioLogado.token ? (
+              <Nav.Link href="/Cadastro">Cadastrar-se</Nav.Link>
+            ) : (
+              ""
+            )}            
+
           </Nav>
         </Navbar.Collapse>
       </Container>

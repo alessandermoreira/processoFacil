@@ -6,6 +6,12 @@ import { X } from 'react-bootstrap-icons';
 
 
 const ConfigurarAlerta = ({url}) => {
+
+
+  var usuarioLogado = "";
+  if (localStorage.getItem('usuarioLogado'))
+    usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+
   const [item, setItem] = useState("");
   const [price, setPrice] = useState("");
   const [items, setItems] = useState([]);
@@ -20,7 +26,10 @@ const ConfigurarAlerta = ({url}) => {
     if(item){
       setItems([...items, { item }]);
       setItem("");
+
     }
+
+    console.log("salvar")
 
     // else {
     //   const newItems = [...items];
@@ -41,7 +50,7 @@ const ConfigurarAlerta = ({url}) => {
   };
 
   useEffect(() => {
-    axios.get(url +'/api/cidades')
+    axios.get(url +'/cidades', { headers: { Authorization: `Bearer ${usuarioLogado.token}` } })
       .then(response => {
 
         // const options = [
@@ -141,7 +150,7 @@ const ConfigurarAlerta = ({url}) => {
 
 
         {items[0] ? (
-            <Button style={{width:"100%"}} variant="primary" type="submit">
+            <Button style={{width:"100%"}} variant="primary" onClick={handleSubmit} type="submit">
             {/* {editingIndex === null ? "Adicionar" : "Atualizar"} */}
               Salvar Configuração
             </Button>

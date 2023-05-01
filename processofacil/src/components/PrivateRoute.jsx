@@ -1,45 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { Route, useNavigate, Outlet, Link  } from 'react-router-dom';
+import React, { useState, useEffect, Component } from "react";
+import { Route, useNavigate, Outlet, Link, Navigate  } from 'react-router-dom';
 
+const PrivateRoute = (  { children: children, ...rest } ) => {
 
-function PrivateRoute({ component: Component, ...rest }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  // const navigate = useNavigate();
+  // <Route
+  //   {...rest}
+  //   render={props => {
+  //     const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
 
-  useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (!user) {
-        
-      setIsAuthenticated(false);
-      // navigate("/login");
-      window.location.href = "/login"
-    } else {
-      // Verifique o token JWT no servidor
-      fetch("/api/auth/verify", {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      })
-        .then((res) => {
-          if (res.ok) {
-            setIsAuthenticated(true);
-          } else {
-            setIsAuthenticated(false);
-            // navigate("/login");
-            window.location.href = "/login"            
-          }
-        })
-        .catch((err) => {
-          setIsAuthenticated(false);
-          // navigate("/login");
-          window.location.href = "/login"
-        });
-    }
-  }, []);
+  //     if (usuarioLogado.token) {
+  //       return <Component {...props} />;
+  //     } else {
+  //       return <Navigate to="/login" />;
+  //     }
+  //   }}
+  // />
 
-//   return auth ? <Outlet /> : <Navigate to="/login" />;
+  const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+  const isAuthenticated = usuarioLogado.token;
 
-  return isAuthenticated ? <Outlet /> : <Link to="/login" />;
-}
+  return isAuthenticated ? children : <Navigate to="/login" />;
+};
 
 export default PrivateRoute;

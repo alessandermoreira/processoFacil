@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
 
-const Login = ({url, usuarioLogado, setUsuarioLogado}) => {
+const Login = ({url}) => {
 
 
-    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -14,11 +12,13 @@ const Login = ({url, usuarioLogado, setUsuarioLogado}) => {
         e.preventDefault();
         console.log(email, password);
         const credenciais = {email, password};
-        const response = await axios.post(url + '/api/login', credenciais,{params: credenciais});
-        localStorage.setItem('user', response.data);
-        setUsuarioLogado(response.data);
-        console.log(response.data);
-        navigate("/Processos")
+        const response = await axios.post(url + '/login', credenciais,{params: credenciais});
+        localStorage.setItem('usuarioLogado', JSON.stringify(response.data.user_obj));
+        const usuarioLogadoSalvo = JSON.parse(localStorage.getItem('usuarioLogado'));
+        console.log(usuarioLogadoSalvo);
+        if(usuarioLogadoSalvo){
+            window.location.href = "/"
+        }
     };
 
 return (
