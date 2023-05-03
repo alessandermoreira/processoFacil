@@ -13,12 +13,20 @@ const Login = ({url}) => {
         console.log(email, password);
         const credenciais = {email, password};
         const response = await axios.post(url + '/login', credenciais,{params: credenciais});
-        localStorage.setItem('usuarioLogado', JSON.stringify(response.data.user_obj));
-        const usuarioLogadoSalvo = JSON.parse(localStorage.getItem('usuarioLogado'));
-        console.log(usuarioLogadoSalvo);
-        if(usuarioLogadoSalvo){
-            window.location.href = "/"
+        console.log(response)
+        if(response.data == 'Senha inválida!')
+        {
+            alert('Senha inválida!');
+        }else{
+            localStorage.setItem('usuarioLogado', JSON.stringify(response.data.user_obj));
+            const usuarioLogadoSalvo = JSON.parse(localStorage.getItem('usuarioLogado'));
+            console.log(usuarioLogadoSalvo);
+            if(usuarioLogadoSalvo){
+                window.location.href = "/"
+            }
         }
+        
+
     };
 
 return (

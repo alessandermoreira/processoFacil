@@ -42,7 +42,7 @@ const authenticateUser = (req, res, next) => {
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.query;
 
-  const sql = 'SELECT CodigoUsuario, Email, Nome, Sobrenome FROM usuarios WHERE email = ? and senha = ?';
+  const sql = 'SELECT CodigoUsuario, Email, Nome, Sobrenome, Senha FROM usuarios WHERE email = ?';
 
   await pool.getConnection(async function(error, connection) {
 
@@ -53,9 +53,9 @@ app.post('/api/login', async (req, res) => {
 
     // monta hash de senha
     // const salt = await bcrypt.genSalt();
-    // const hashedPassword = await bcrypt.hash(senha, salt);
+    // const hashedPassword = await bcrypt.hash(password, salt);  
 
-    connection.query(sql, [email, password], function(error, results) {
+    connection.query(sql, [email], async function(error, results) {
 
       if (error) {
         res.status(500).json({ error: error });
@@ -64,9 +64,15 @@ app.post('/api/login', async (req, res) => {
         // email ja cadastrado retorna msg
         if (results[0])
         {
-          const token = jwt.sign({ id: results[0].CodigoUsuario }, process.env.chave_jwt);
-          const user_obj = {...results[0], token}
-          res.json({ user_obj });
+          if(await bcrypt.compare(password, results[0].Senha)){
+            const token = jwt.sign({ id: results[0].CodigoUsuario }, process.env.chave_jwt);
+            const user_obj = {...results[0], token}
+            delete user_obj.Senha;
+            res.json({ user_obj });
+          }
+          else{
+            res.send("Senha inválida!")
+          }
         }
         else{
           return res.status(400).json({ message: 'Usuário ou senha incorreta' });
@@ -170,7 +176,7 @@ app.post('/api/register', async (req, res) => {
 
         // email ja cadastrado retorna msg
         if (results[0])
-          return res.status(400).json({ message: 'Email já cadastrado' });
+          return res.json({ message: 'Email já cadastrado' });
         
         // prossegue e insere no banco
         const insert = `INSERT INTO usuarios
