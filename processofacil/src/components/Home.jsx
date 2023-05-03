@@ -12,7 +12,7 @@ const Home = ({}) => {
 
   const pesquisarGPT = async() => {
     
-    axios.get(`http://localhost:3001/api/chamarChatGPT/` , {
+    axios.get(`http://localhost:3001/chamarChatGPT/` , {
         params: {
           texto: textareaRef.current.value
         } } )

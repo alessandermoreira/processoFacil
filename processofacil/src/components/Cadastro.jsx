@@ -22,9 +22,11 @@ const Cadastro = ({url}) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("formData");    
-    console.log(formData);
-    registerUser(formData);
+
+
+    registerUser({cep :formData.cep,email: formData.email, endereco: formData.endereco, nome: formData.nome, 
+      senha : formData.senha, sobrenome : formData.sobrenome,  telefone : formData.telefone,
+  });
   }
 
 // Front-end: cadastro de usuário
@@ -32,8 +34,15 @@ const registerUser = async (userData) => {
   try {
     console.log("userData");
     console.log(userData);
-    const response = await axios.post(url + '/api/register', userData,{params: userData});
-    return response.data;
+    const response = await axios.post(url + '/register', userData,{params: userData});
+    if(response.data.message){
+      alert(response.data.message)
+      if( response.data.message == "Usuário cadastrado com sucesso"){
+        window.location.href = "/login"
+      }
+    }
+
+    return ;
 
     
   } catch (error) {
