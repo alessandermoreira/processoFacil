@@ -1,53 +1,79 @@
 import axios from 'axios';
 import React, { useState, useEffect, useRef } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Card, Col, Container, Row } from 'react-bootstrap';
+import { TextCenter } from 'react-bootstrap-icons';
+import Carousel from 'react-bootstrap/Carousel';
+import ExampleCarouselImage from './ExampleCarouselImage';
+import './css/Home.css';
+import BackgroundCarousel from './BackgroundCarousel';
+
+
 
 const Home = () => {
   const [response, setResponse] = useState(null);
   const textareaRef = useRef(null);
 
-
-
-  const pesquisarGPT = async() => {
-
-
-    
-    axios.get(`http://localhost:3001/api/chamarChatGPT/` , {
-        params: {
-          texto: textareaRef.current.value
-        } } )
-    .then(response => {
-         
-        const data = response.data;
-        setResponse(data);
-        console.log(data)
-    })
-    .catch(error => {
-        console.error(error);
-    });
-  }
-
-//   useEffect(() => {
-//     fetchData();
-//   }, []);
-
   return (
-    <div>
-    <Form>
-      <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-        <Form.Label>Example textarea</Form.Label>
-        <Form.Control as="textarea" ref={textareaRef} rows={3} />
-      </Form.Group>
-    </Form>
-    <Button onClick={pesquisarGPT} >Pesquisar no GPT</Button>
-      {response ? (
-        <div>
-          <h2>Response:</h2>
-          <p>{response}</p>
-        </div>
-      ) : (
-        <div>Loading...</div>
-      )}
+    <div style={{ backgroundColor: '#ffc10742'}} className='App'>
+      <BackgroundCarousel />
+      <Container className='content'>
+          <header className="my-4" style={{color:"white", fontSize:"2em", textShadow:"rgb(12, 66, 2) -2px 2px 5px"}}>
+            <br />
+            {/* <h1 className="text-center">Bem-vindo à Entrega Aki</h1> */}
+            <br />
+            <h1 className="text-center">Você compra aqui</h1>
+            <br />
+            <h1 className="text-center">Entregamos na sua casa</h1>                     
+            <br />
+            <br />
+            <br />                        
+             
+          </header>
+          <header className="my-4 text-center" style={{color:"white"}}>
+             <Button style={{top:"50%", backgroundColor:'yellow', color:'#035816', fontWeight:'bold' }} href="/Produtos" variant="success">Aproveite !</Button>
+          </header>          
+
+        
+        
+
+
+
+
+
+          {/* <Carousel className="mb-4">
+            <Carousel.Item>
+              <img
+                className="d-block w-100"
+                src="../imgs/home3.png"
+                alt="Primeiro Produto"
+              />
+              <Carousel.Caption>
+      
+              </Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+                className="d-block w-100"
+                src="../imgs/home4.png"
+                alt="Segundo Produto"
+              />
+              <Carousel.Caption>
+      
+              </Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+                className="d-block w-100"
+                src="../imgs/home5.png"
+                alt="Terceiro Produto"
+              />
+              <Carousel.Caption>
+
+              </Carousel.Caption>
+            </Carousel.Item>
+          </Carousel>   */}
+          
+      </Container>
     </div>
   );
 };

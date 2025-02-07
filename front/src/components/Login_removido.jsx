@@ -36,10 +36,10 @@ return (
                 </Form.Group>
                 <br />
                 <Button variant="primary" type="submit">
-                Login
+                    Login
                 </Button>
                 <Button style={{float:"right"}} variant="default" className="ml-2">
-                Esqueci minha senha
+                    Esqueci minha senha
                 </Button>
             </Form>
         </Col>

@@ -1,0 +1,10 @@
+.raffle-container {
+    position: relative;
+    min-height: 100vh;
+  }
+  
+  .following-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+  }

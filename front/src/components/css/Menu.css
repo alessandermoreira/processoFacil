@@ -1,3 +1,53 @@
 #ListaIcon{
     margin-right: 30px;
 }
+
+body{
+    background-color: #edede9;
+}
+
+/* config do formulario de cadastro */
+.form-control, .form-select{
+    background-color: #fffbda6b /* #fffbda; */
+}
+
+.form-label{
+    color: #FF5722;
+    font-weight: bold;
+}
+
+.form-select{
+    color:#6c6d6d !important
+}
+
+h3{
+    color: #918961;
+}
+.btn-padrao{
+    background-color : #ff5722;
+    border-color: #ff5722;
+    color: white;
+}
+
+
+.following-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 5px;
+    background-color: #f00;
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+  }
+  
+  .following-button:hover {
+    background-color: #d00;
+  }
+  
+  .following-button:active {
+    background-color: #c00;
+  }
