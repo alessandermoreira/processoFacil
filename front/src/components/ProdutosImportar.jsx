@@ -41,7 +41,9 @@ function ProdutosImportar({ products, setProducts }) {
       dataLimite: selectedDate
     };
 
-    await api.post("/aplicar-preco", data, { params: data, headers: { authorization: `Bearer ${localStorage.getItem('token')}` } }).then(response => {
+    console.log(products);
+
+    await api.post("/aplicar-preco", data, { headers: { authorization: `Bearer ${localStorage.getItem('token')}` } }).then(response => {
       console.log("response aplicar preço");
       console.log(response.data);
       alert('Produtos adicionados: ' + response.data.quantidadeProdutosAdicionados);

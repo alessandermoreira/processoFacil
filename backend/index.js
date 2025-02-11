@@ -25,7 +25,7 @@ const { format, addDays, nextTuesday, nextThursday } = require('date-fns');
 app.use(cors({
   origin: [process.env.dns_origin, process.env.dns_origin2]
 }));
-
+app.use(express.json());
  // const pool = mysql.createPool({
      // connectionLimit : 10,
      // host: process.env.host,
@@ -222,7 +222,8 @@ app.get('/get-produtos-venda', authenticateUser, async (req, res) => {
     ON 
         produtos_venda.id = QtdVendida.idProdutosVendas
     WHERE 
-        produtos_venda.dataLimiteAtivo >= CURRENT_DATE;
+        produtos_venda.dataLimiteAtivo >= CURRENT_DATE
+      AND produtos_venda.Inativo <> 1; 
   `;
 
   try {
@@ -478,7 +479,7 @@ app.post('/pedidos', async (req, res) => {
 });
 
 app.post('/aplicar-preco', authenticateUser, async (req, res) => {
-  const { products, dataLimite } = req.query;
+  const { products, dataLimite } = req.body;
 
   try {
     // Chama a função para inserir e processar os produtos disponíveis
